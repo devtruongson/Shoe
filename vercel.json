@@ -1,10 +1,10 @@
 {
     "version": 2,
     "public": true,
-    "name": "shoe-html-pages",
+    "name": "shoe-pages",
     "builds": [
         {
-            "src": "page/(.*)",
+            "src": "page/**",
             "use": "@vercel/static"
         }
     ],
