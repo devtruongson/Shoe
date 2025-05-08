@@ -3,14 +3,31 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Thanh toán - Shoe Store</title>
-        <script src="https://cdn.tailwindcss.com"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js"></script>
+        <title>Giỏ hàng - Shoe Store</title>
+        <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css"
+            rel="stylesheet"
+        />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
         <style>
             @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap");
 
             body {
                 font-family: "Roboto", sans-serif;
+            }
+
+            .cart-item {
+                transition: all 0.3s ease;
+            }
+
+            .cart-item:hover {
+                background-color: #f9fafb;
+            }
+
+            .quantity-input {
+                width: 4rem;
+                text-align: center;
             }
 
             .toast {
@@ -23,15 +40,10 @@
                 transform: translateY(0);
                 opacity: 1;
             }
-
-            .error {
-                display: none;
-                color: #dc2626;
-                font-size: 0.875rem;
-                margin-top: 0.25rem;
-            }
         </style>
-        <script src="../javascript/header.js" defer></script>
+        <script defer src="/javascript/addToCart.js"></script>
+        <script src="/javascript/header.js" defer></script>
+        <script src="/javascript/sampleData.js"></script>
     </head>
     <body class="bg-gray-50">
         <div
@@ -43,7 +55,6 @@
                 <span id="toast-message"></span>
             </div>
         </div>
-
         <header class="bg-white shadow-sm py-5">
             <div class="container mx-auto px-4 py-3">
                 <div class="flex items-center justify-between">
@@ -113,7 +124,6 @@
                 </div>
             </div>
         </header>
-
         <main class="container mx-auto px-4 py-8">
             <nav class="text-sm mb-6">
                 <ol class="flex items-center space-x-2">
@@ -123,170 +133,74 @@
                         >
                     </li>
                     <li><span class="text-gray-500">/</span></li>
-                    <li>
-                        <a
-                            href="cart.html"
-                            class="text-gray-500 hover:text-red-600"
-                            >Giỏ hàng</a
-                        >
-                    </li>
-                    <li><span class="text-gray-500">/</span></li>
-                    <li class="text-gray-900 font-medium">Thanh toán</li>
+                    <li class="text-gray-900 font-medium">Giỏ hàng</li>
                 </ol>
             </nav>
 
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <div class="lg:col-span-2 bg-white rounded-lg shadow-sm p-6">
-                    <h1 class="text-2xl font-bold text-gray-900 mb-6">
-                        Thanh toán đơn hàng
+            <div class="bg-white rounded-lg shadow-sm overflow-hidden p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h1 class="text-2xl font-bold text-gray-900">
+                        Giỏ hàng của bạn
                     </h1>
-
-                    <div class="divide-y divide-gray-200 mb-6">
-                        <div
-                            id="order-items"
-                            class="divide-y divide-gray-200"
-                        ></div>
-                        <div class="pt-4">
-                            <div class="flex justify-between items-center">
-                                <span class="text-lg font-medium text-gray-900"
-                                    >Tổng cộng:</span
-                                >
-                                <span
-                                    id="order-total"
-                                    class="text-lg font-bold text-red-600"
-                                    >0₫</span
-                                >
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="mb-6">
-                        <h2 class="text-lg font-medium text-gray-900 mb-4">
-                            Thông tin giao hàng
-                        </h2>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <label
-                                    for="full-name"
-                                    class="block text-sm font-medium text-gray-700"
-                                    >Họ và tên</label
-                                >
-                                <input
-                                    type="text"
-                                    id="full-name"
-                                    class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-red-500 focus:border-red-500"
-                                    required
-                                />
-                                <span id="full-name-error" class="error"
-                                    >Vui lòng nhập họ và tên</span
-                                >
-                            </div>
-                            <div>
-                                <label
-                                    for="phone"
-                                    class="block text-sm font-medium text-gray-700"
-                                    >Số điện thoại</label
-                                >
-                                <input
-                                    type="tel"
-                                    id="phone"
-                                    class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-red-500 focus:border-red-500"
-                                    required
-                                />
-                                <span id="phone-error" class="error"
-                                    >Vui lòng nhập số điện thoại hợp lệ</span
-                                >
-                            </div>
-                            <div>
-                                <label
-                                    for="email"
-                                    class="block text-sm font-medium text-gray-700"
-                                    >Email</label
-                                >
-                                <input
-                                    type="email"
-                                    id="email"
-                                    class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-red-500 focus:border-red-500"
-                                    required
-                                />
-                                <span id="email-error" class="error"
-                                    >Vui lòng nhập email hợp lệ</span
-                                >
-                            </div>
-                            <div class="md:col-span-2">
-                                <label
-                                    for="address"
-                                    class="block text-sm font-medium text-gray-700"
-                                    >Địa chỉ giao hàng</label
-                                >
-                                <input
-                                    type="text"
-                                    id="address"
-                                    class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-red-500 focus:border-red-500"
-                                    required
-                                />
-                                <span id="address-error" class="error"
-                                    >Vui lòng nhập địa chỉ giao hàng</span
-                                >
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="mb-6">
-                        <h2 class="text-lg font-medium text-gray-900 mb-4">
-                            Phương thức thanh toán
-                        </h2>
-                        <div class="space-y-2">
-                            <label class="flex items-center">
-                                <input
-                                    type="radio"
-                                    name="payment-method"
-                                    value="cod"
-                                    class="form-radio h-4 w-4 text-red-500"
-                                    checked
-                                />
-                                <span class="ml-2 text-sm text-gray-700"
-                                    >Thanh toán khi nhận hàng (COD)</span
-                                >
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="flex justify-end">
-                        <button
-                            id="confirm-order"
-                            class="bg-red-500 hover:bg-red-600 text-white font-medium py-3 px-6 rounded-md flex items-center"
-                        >
-                            <i
-                                data-feather="check-circle"
-                                class="w-5 h-5 mr-2"
-                            ></i>
-                            Xác nhận đơn hàng
-                        </button>
-                    </div>
+                    <button
+                        id="clear-cart"
+                        class="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-md flex items-center"
+                    >
+                        <i data-feather="trash-2" class="w-5 h-5 mr-2"></i>
+                        Xóa tất cả
+                    </button>
                 </div>
 
-                <div class="bg-white rounded-lg shadow-sm p-6">
-                    <h2 class="text-lg font-medium text-gray-900 mb-4">
-                        Tóm tắt đơn hàng
-                    </h2>
-                    <div class="divide-y divide-gray-200">
-                        <div class="pb-4">
-                            <div id="summary-items" class="space-y-2"></div>
+                <div id="cart-items" class="divide-y divide-gray-200"></div>
+
+                <div id="empty-cart-message" class="text-center py-8 hidden">
+                    <p class="text-gray-600 mb-4">
+                        Giỏ hàng của bạn đang trống.
+                    </p>
+                    <a
+                        href="index.html"
+                        class="bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded-md"
+                        >Tiếp tục mua sắm</a
+                    >
+                </div>
+
+                <div
+                    id="cart-summary"
+                    class="mt-8 flex flex-col md:flex-row justify-between items-center border-t border-gray-200 pt-6"
+                >
+                    <div class="mb-4 md:mb-0">
+                        <a
+                            href="index.html"
+                            class="text-red-500 hover:text-red-600 font-medium flex items-center"
+                        >
+                            <i
+                                data-feather="arrow-left"
+                                class="w-5 h-5 mr-2"
+                            ></i>
+                            Tiếp tục mua sắm
+                        </a>
+                    </div>
+                    <div class="w-full md:w-auto">
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-lg font-medium text-gray-900"
+                                >Tổng cộng:</span
+                            >
+                            <span
+                                id="cart-total"
+                                class="text-lg font-bold text-red-600"
+                                >0₫</span
+                            >
                         </div>
-                        <div class="pt-4">
-                            <div class="flex justify-between items-center">
-                                <span
-                                    class="text-base font-medium text-gray-900"
-                                    >Tổng cộng:</span
-                                >
-                                <span
-                                    id="summary-total"
-                                    class="text-base font-bold text-red-600"
-                                    >0₫</span
-                                >
-                            </div>
-                        </div>
+                        <button
+                            id="checkout-button"
+                            class="w-full bg-red-500 hover:bg-red-600 text-white font-medium py-3 px-6 rounded-md flex items-center justify-center"
+                        >
+                            <i
+                                data-feather="credit-card"
+                                class="w-5 h-5 mr-2"
+                            ></i>
+                            Thanh toán
+                        </button>
                     </div>
                 </div>
             </div>
@@ -453,7 +367,6 @@
                 </div>
             </div>
         </footer>
-
-        <script src="../javascript/checkout.js"></script>
+        <script src="/javascript/cartPage.js"></script>
     </body>
 </html>
