@@ -126,7 +126,6 @@ if (!localStorage.getItem("products")) {
 }
 if (!localStorage.getItem("categories")) {
     const sampleCategories = [
-        { id: 1745217996593, name: "Áo Sơ Mi Nữ", description: "Áo Sơ Mi Nữ" },
         {
             id: 1745218004892,
             name: "Giày Sneaker",
