@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="vi">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Trang Chủ - Shoe Store</title>
+        <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+        <script src="https://unpkg.com/feather-icons"></script>
+        <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+        <style>
+            @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap");
+
+            body {
+                font-family: "Roboto", sans-serif;
+            }
+        </style>
+        <script defer src="../javascript/product.js"></script>
+        <script defer src="../javascript/addToCart.js"></script>
+        <script defer src="../javascript/header.js"></script>
+        <script src="../javascript/sampleData.js"></script>
+    </head>
+
+    <body>
+        <header class="bg-white shadow-sm py-5">
+            <div class="container mx-auto px-4 py-3">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <div class="text-2xl font-bold" id="header_back">
+                            <span class="text-red-500" id="shopNameHeader"
+                                >SHOE</span
+                            >
+                            <span class="text-gray-800">STORE</span>
+                        </div>
+                    </div>
+
+                    <nav class="hidden md:flex space-x-8">
+                        <a
+                            href="index.html"
+                            class="text-gray-800 hover:text-red-700 font-medium"
+                            >Trang chủ</a
+                        >
+                        <div
+                            class="flex items-center gap-5"
+                            id="cateRenderHeader"
+                        >
+                            <a
+                                href="#"
+                                class="text-gray-800 hover:text-red-700 font-medium"
+                                >Thể thao</a
+                            >
+                            <a
+                                href="#"
+                                class="text-gray-800 hover:text-red-700 font-medium"
+                                >Công sở</a
+                            >
+                            <a
+                                href="#"
+                                class="text-gray-800 hover:text-red-700 font-medium"
+                                >Sneaker</a
+                            >
+                            <a
+                                href="#"
+                                class="text-gray-800 hover:text-red-700 font-medium"
+                                >Khuyến mãi</a
+                            >
+                        </div>
+                    </nav>
+                    <div class="flex items-center space-x-4">
+                        <a
+                            href="cart.html"
+                            id="cartBtn"
+                            class="text-gray-800 hover:text-red-700 relative"
+                        >
+                            <i data-feather="shopping-cart" class="w-6 h-6"></i>
+                            <span
+                                id="cartCount"
+                                class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center"
+                                >0</span
+                            >
+                        </a>
+                        <button
+                            id="menu-toggle"
+                            class="md:hidden text-gray-800"
+                        >
+                            <i data-feather="menu" class="w-6 h-6"></i>
+                        </button>
+                        <div id="auth_header"></div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div id="mobile-menu" class="fixed inset-0 bg-white z-50 hidden">
+            <div class="p-4">
+                <div class="flex justify-between items-center mb-8">
+                    <div class="text-2xl font-bold">
+                        <span class="text-red-500" id="shopNameMobile"
+                            >SHOE</span
+                        >
+                        <span class="text-gray-800">STORE</span>
+                    </div>
+                    <button id="close-menu">
+                        <i data-feather="x" class="w-6 h-6 text-gray-800"></i>
+                    </button>
+                </div>
+                <div class="mb-6">
+                    <div class="relative">
+                        <input
+                            type="text"
+                            placeholder="Tìm kiếm..."
+                            class="w-full border border-gray-300 rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-red-500"
+                        />
+                        <button class="absolute right-3 top-2">
+                            <i
+                                data-feather="search"
+                                class="w-5 h-5 text-gray-400"
+                            ></i>
+                        </button>
+                    </div>
+                </div>
+                <nav class="flex flex-col space-y-4">
+                    <a
+                        href="#"
+                        class="text-gray-800 hover:text-red-700 font-medium text-lg py-2 border-b border-gray-100"
+                        >Trang chủ</a
+                    >
+                    <a
+                        href="#"
+                        class="text-gray-800 hover:text-red-700 font-medium text-lg py-2 border-b border-gray-100"
+                        >Thể thao</a
+                    >
+                    <a
+                        href="#"
+                        class="text-gray-800 hover:text-red-700 font-medium text-lg py-2 border-b border-gray-100"
+                        >Công sở</a
+                    >
+                    <a
+                        href="#"
+                        class="text-gray-800 hover:text-red-700 font-medium text-lg py-2 border-b border-gray-100"
+                        >Sneaker</a
+                    >
+                    <a
+                        href="#"
+                        class="text-gray-800 hover:text-red-700 font-medium text-lg py-2 border-b border-gray-100"
+                        >Khuyến mãi</a
+                    >
+                </nav>
+            </div>
+        </div>
+
+        <main class="">
+            <img
+                src="https://file.hstatic.net/200000581855/file/banner_2_7f759d8e36d34b30b998978830194a14_master.png"
+                alt="New Collection"
+                class="w-full h-[500px] mt-10 mb-20 rounded-md"
+            />
+
+            <div class="container mx-auto">
+                <section class="mb-12 hidden">
+                    <h2 class="text-2xl font-bold mb-6 text-center">
+                        DANH MỤC NỔI BẬT
+                    </h2>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 hidden">
+                        <a
+                            href="#"
+                            class="relative rounded-lg overflow-hidden group border: 1px solid #ccc;"
+                        >
+                            <img
+                                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRooz--A8BeDoAfz0a0LdxcGS5G_QY8QXBxgw&s"
+                                alt="Giày thể thao"
+                                class="w-full h-48 md:h-64 blur-sm object-contain transition duration-300 group-hover:scale-105"
+                            />
+                            <div
+                                class="absolute inset-0 flex items-center justify-center bg-[rgba(0,0,0,0.4)]"
+                                style="border: 1px solid #ccc; overflow: hidden"
+                            >
+                                <h3 class="text-white text-xl font-bold">
+                                    THỂ THAO
+                                </h3>
+                            </div>
+                        </a>
+                        <a
+                            href="#"
+                            class="relative rounded-lg overflow-hidden group border: 1px solid #ccc;"
+                        >
+                            <img
+                                src="https://pos.nvncdn.com/8d4112-8686/ps/20240716_XM2Sbelp0B.jpeg"
+                                alt="Giày công sở"
+                                class="w-full h-48 md:h-64 blur-sm object-contain transition duration-300 group-hover:scale-105"
+                            />
+                            <div
+                                class="absolute inset-0 flex items-center justify-center bg-[rgba(0,0,0,0.4)]"
+                                style="border: 1px solid #ccc; overflow: hidden"
+                            >
+                                <h3 class="text-white text-xl font-bold">
+                                    CÔNG SỞ
+                                </h3>
+                            </div>
+                        </a>
+                        <a
+                            href="#"
+                            class="relative rounded-lg overflow-hidden group border: 1px solid #ccc;"
+                        >
+                            <img
+                                src="https://pos.nvncdn.com/b153ea-53436/ps/20240722_zKqn7lN4Ik.jpeg"
+                                alt="Sneaker"
+                                class="w-full h-48 md:h-64 blur-sm object-contain transition duration-300 group-hover:scale-105"
+                            />
+                            <div
+                                class="absolute inset-0 flex items-center justify-center bg-[rgba(0,0,0,0.4)]"
+                                style="border: 1px solid #ccc; overflow: hidden"
+                            >
+                                <h3 class="text-white text-xl font-bold">
+                                    SNEAKER
+                                </h3>
+                            </div>
+                        </a>
+                        <a
+                            href="#"
+                            class="relative rounded-lg overflow-hidden group border: 1px solid #ccc;"
+                        >
+                            <img
+                                src="https://ruza.vn/wp-content/uploads/2023/06/an-3025-1-trang-vx-2058.jpg"
+                                alt="Phụ kiện"
+                                class="w-full h-48 md:h-64 blur-sm object-contain transition duration-300 group-hover:scale-105"
+                            />
+                            <div
+                                class="absolute inset-0 flex items-center justify-center bg-[rgba(0,0,0,0.4)]"
+                                style="border: 1px solid #ccc; overflow: hidden"
+                            >
+                                <h3 class="text-white text-xl font-bold">
+                                    PHỤ KIỆN
+                                </h3>
+                            </div>
+                        </a>
+                    </div>
+                </section>
+
+                <section class="mb-20">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-2xl font-bold">SẢN PHẨM CỬA HÀNG</h2>
+                    </div>
+                    <div
+                        id="productList"
+                        class="grid grid-cols-2 md:grid-cols-4 gap-6"
+                    ></div>
+                </section>
+                <section
+                    class="mb-12 grid grid-cols-1 md:grid-cols-4 gap-4 text-center"
+                >
+                    <div
+                        class="p-4 bg-white rounded-lg shadow-sm"
+                        style="border: 1px solid #ccc"
+                    >
+                        <i
+                            data-feather="truck"
+                            class="mx-auto mb-3 text-red-500"
+                        ></i>
+                        <h3 class="font-bold mb-1">Miễn phí vận chuyển</h3>
+                        <p class="text-gray-600 text-sm">
+                            Cho đơn hàng từ 500k
+                        </p>
+                    </div>
+                    <div
+                        class="p-4 bg-white rounded-lg shadow-sm"
+                        style="border: 1px solid #ccc"
+                    >
+                        <i
+                            data-feather="repeat"
+                            class="mx-auto mb-3 text-red-500"
+                        ></i>
+                        <h3 class="font-bold mb-1">Đổi trả dễ dàng</h3>
+                        <p class="text-gray-600 text-sm">Trong vòng 30 ngày</p>
+                    </div>
+                    <div
+                        class="p-4 bg-white rounded-lg shadow-sm"
+                        style="border: 1px solid #ccc"
+                    >
+                        <i
+                            data-feather="shield"
+                            class="mx-auto mb-3 text-red-500"
+                        ></i>
+                        <h3 class="font-bold mb-1">Thanh toán an toàn</h3>
+                        <p class="text-gray-600 text-sm">Bảo mật 100%</p>
+                    </div>
+                    <div
+                        class="p-4 bg-white rounded-lg shadow-sm"
+                        style="border: 1px solid #ccc"
+                    >
+                        <i
+                            data-feather="headphones"
+                            class="mx-auto mb-3 text-red-500"
+                        ></i>
+                        <h3 class="font-bold mb-1">Hỗ trợ 24/7</h3>
+                        <p class="text-gray-600 text-sm">
+                            Liên hệ bất kỳ lúc nào
+                        </p>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <footer class="bg-gray-800 text-white pt-12 pb-6">
+            <div class="container mx-auto px-4">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                    <div>
+                        <h3 class="text-xl font-bold mb-4" id="shopNameFooter">
+                            SHOESTORE
+                        </h3>
+                        <p class="text-gray-300 mb-4">
+                            Cửa hàng giày hàng đầu mang đến những sản phẩm chất
+                            lượng với giá cả hợp lý.
+                        </p>
+                        <div class="flex space-x-4">
+                            <a href="#" class="text-gray-300 hover:text-white">
+                                <i data-feather="facebook" class="w-5 h-5"></i>
+                            </a>
+                            <a href="#" class="text-gray-300 hover:text-white">
+                                <i data-feather="instagram" class="w-5 h-5"></i>
+                            </a>
+                            <a href="#" class="text-gray-300 hover:text-white">
+                                <i data-feather="twitter" class="w-5 h-5"></i>
+                            </a>
+                            <a href="#" class="text-gray-300 hover:text-white">
+                                <i data-feather="youtube" class="w-5 h-5"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold mb-4">DANH MỤC</h3>
+                        <ul class="space-y-2">
+                            <li>
+                                <a
+                                    href="#"
+                                    class="text-gray-300 hover:text-white"
+                                    >Thể thao</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    href="#"
+                                    class="text-gray-300 hover:text-white"
+                                    >Công sở</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    href="#"
+                                    class="text-gray-300 hover:text-white"
+                                    >Sneaker</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    href="#"
+                                    class="text-gray-300 hover:text-white"
+                                    >Giày chạy bộ</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    href="#"
+                                    class="text-gray-300 hover:text-white"
+                                    >Giày da</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    href="#"
+                                    class="text-gray-300 hover:text-white"
+                                    >Phụ kiện</a
+                                >
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold mb-4">THÔNG TIN</h3>
+                        <ul class="space-y-2">
+                            <li>
+                                <a
+                                    href="#"
+                                    class="text-gray-300 hover:text-white"
+                                    >Về chúng tôi</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    href="#"
+                                    class="text-gray-300 hover:text-white"
+                                    >Chính sách bảo mật</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    href="#"
+                                    class="text-gray-300 hover:text-white"
+                                    >Điều khoản sử dụng</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    href="#"
+                                    class="text-gray-300 hover:text-white"
+                                    >Chính sách vận chuyển</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    href="#"
+                                    class="text-gray-300 hover:text-white"
+                                    >Chính sách đổi trả</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    href="#"
+                                    class="text-gray-300 hover:text-white"
+                                    >Liên hệ</a
+                                >
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold mb-4">LIÊN HỆ</h3>
+                        <ul class="space-y-2">
+                            <li class="flex items-start">
+                                <i
+                                    data-feather="map-pin"
+                                    class="w-5 h-5 mr-2 mt-1"
+                                ></i>
+                                <span
+                                    >123 Đường ABC, Quận XYZ, TP. Hồ Chí
+                                    Minh</span
+                                >
+                            </li>
+                            <li class="flex items-center">
+                                <i
+                                    data-feather="phone"
+                                    class="w-5 h-5 mr-2"
+                                ></i>
+                                <span>0123 456 789</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i data-feather="mail" class="w-5 h-5 mr-2"></i>
+                                <span id="supportEmailFooter"
+                                    >support@shoestore.com</span
+                                >
+                            </li>
+                        </ul>
+                        <div class="mt-4">
+                            <h4 class="font-medium mb-2">ĐĂNG KÝ NHẬN TIN</h4>
+                            <div class="flex">
+                                <input
+                                    type="email"
+                                    placeholder="Email của bạn"
+                                    class="px-4 py-2 w-full rounded-l-lg focus:outline-none text-gray-800"
+                                />
+                                <button
+                                    class="bg-red-500 hover:bg-red-600 px-4 rounded-r-lg"
+                                >
+                                    <i data-feather="send" class="w-5 h-5"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div
+                    class="border-t border-gray-700 pt-6 text-center text-gray-300 text-sm"
+                >
+                    <p>
+                        © 2025
+                        <span id="shopNameFooterBottom">SHOESTORE</span>. Tất cả
+                        các quyền được bảo lưu.
+                    </p>
+                </div>
+            </div>
+        </footer>
+    </body>
+</html>

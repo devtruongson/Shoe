@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="vi">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Thanh toán - Shoe Store</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js"></script>
+        <style>
+            @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap");
+
+            body {
+                font-family: "Roboto", sans-serif;
+            }
+
+            .toast {
+                transition: all 0.3s ease;
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+
+            .toast.show {
+                transform: translateY(0);
+                opacity: 1;
+            }
+
+            .error {
+                display: none;
+                color: #dc2626;
+                font-size: 0.875rem;
+                margin-top: 0.25rem;
+            }
+        </style>
+        <script src="../javascript/header.js" defer></script>
+    </head>
+    <body class="bg-gray-50">
+        <div
+            id="toast"
+            class="toast fixed top-4 right-4 z-50 bg-red-500 text-white px-4 py-3 rounded-lg shadow-lg"
+        >
+            <div class="flex items-center">
+                <i data-feather="check-circle" class="w-5 h-5 mr-2"></i>
+                <span id="toast-message"></span>
+            </div>
+        </div>
+
+        <header class="bg-white shadow-sm py-5">
+            <div class="container mx-auto px-4 py-3">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <div class="text-2xl font-bold" id="header_back">
+                            <span class="text-red-500" id="shopNameHeader"
+                                >SHOE</span
+                            >
+                            <span class="text-gray-800">STORE</span>
+                        </div>
+                    </div>
+
+                    <nav class="hidden md:flex space-x-8">
+                        <a
+                            href="index.html"
+                            class="text-gray-800 hover:text-red-600 font-medium"
+                            >Trang chủ</a
+                        >
+                        <div
+                            class="flex items-center gap-5"
+                            id="cateRenderHeader"
+                        >
+                            <a
+                                href="#"
+                                class="text-gray-800 hover:text-red-600 font-medium"
+                                >Thể thao</a
+                            >
+                            <a
+                                href="#"
+                                class="text-gray-800 hover:text-red-600 font-medium"
+                                >Công sở</a
+                            >
+                            <a
+                                href="#"
+                                class="text-gray-800 hover:text-red-600 font-medium"
+                                >Sneaker</a
+                            >
+                            <a
+                                href="#"
+                                class="text-gray-800 hover:text-red-600 font-medium"
+                                >Phụ kiện</a
+                            >
+                        </div>
+                    </nav>
+                    <div class="flex items-center space-x-4">
+                        <div id="userSection"></div>
+                        <a
+                            href="cart.html"
+                            id="cartBtn"
+                            class="text-gray-800 hover:text-red-600 relative"
+                        >
+                            <i data-feather="shopping-cart" class="w-6 h-6"></i>
+                            <span
+                                id="cartCount"
+                                class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center"
+                                >0</span
+                            >
+                        </a>
+                        <button
+                            id="menu-toggle"
+                            class="md:hidden text-gray-800"
+                        >
+                            <i data-feather="menu" class="w-6 h-6"></i>
+                        </button>
+                        <div id="auth_header"></div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="container mx-auto px-4 py-8">
+            <nav class="text-sm mb-6">
+                <ol class="flex items-center space-x-2">
+                    <li>
+                        <a href="#" class="text-gray-500 hover:text-red-600"
+                            >Trang chủ</a
+                        >
+                    </li>
+                    <li><span class="text-gray-500">/</span></li>
+                    <li>
+                        <a
+                            href="cart.html"
+                            class="text-gray-500 hover:text-red-600"
+                            >Giỏ hàng</a
+                        >
+                    </li>
+                    <li><span class="text-gray-500">/</span></li>
+                    <li class="text-gray-900 font-medium">Thanh toán</li>
+                </ol>
+            </nav>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="lg:col-span-2 bg-white rounded-lg shadow-sm p-6">
+                    <h1 class="text-2xl font-bold text-gray-900 mb-6">
+                        Thanh toán đơn hàng
+                    </h1>
+
+                    <div class="divide-y divide-gray-200 mb-6">
+                        <div
+                            id="order-items"
+                            class="divide-y divide-gray-200"
+                        ></div>
+                        <div class="pt-4">
+                            <div class="flex justify-between items-center">
+                                <span class="text-lg font-medium text-gray-900"
+                                    >Tổng cộng:</span
+                                >
+                                <span
+                                    id="order-total"
+                                    class="text-lg font-bold text-red-600"
+                                    >0₫</span
+                                >
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <h2 class="text-lg font-medium text-gray-900 mb-4">
+                            Thông tin giao hàng
+                        </h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label
+                                    for="full-name"
+                                    class="block text-sm font-medium text-gray-700"
+                                    >Họ và tên</label
+                                >
+                                <input
+                                    type="text"
+                                    id="full-name"
+                                    class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-red-500 focus:border-red-500"
+                                    required
+                                />
+                                <span id="full-name-error" class="error"
+                                    >Vui lòng nhập họ và tên</span
+                                >
+                            </div>
+                            <div>
+                                <label
+                                    for="phone"
+                                    class="block text-sm font-medium text-gray-700"
+                                    >Số điện thoại</label
+                                >
+                                <input
+                                    type="tel"
+                                    id="phone"
+                                    class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-red-500 focus:border-red-500"
+                                    required
+                                />
+                                <span id="phone-error" class="error"
+                                    >Vui lòng nhập số điện thoại hợp lệ</span
+                                >
+                            </div>
+                            <div>
+                                <label
+                                    for="email"
+                                    class="block text-sm font-medium text-gray-700"
+                                    >Email</label
+                                >
+                                <input
+                                    type="email"
+                                    id="email"
+                                    class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-red-500 focus:border-red-500"
+                                    required
+                                />
+                                <span id="email-error" class="error"
+                                    >Vui lòng nhập email hợp lệ</span
+                                >
+                            </div>
+                            <div class="md:col-span-2">
+                                <label
+                                    for="address"
+                                    class="block text-sm font-medium text-gray-700"
+                                    >Địa chỉ giao hàng</label
+                                >
+                                <input
+                                    type="text"
+                                    id="address"
+                                    class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-red-500 focus:border-red-500"
+                                    required
+                                />
+                                <span id="address-error" class="error"
+                                    >Vui lòng nhập địa chỉ giao hàng</span
+                                >
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <h2 class="text-lg font-medium text-gray-900 mb-4">
+                            Phương thức thanh toán
+                        </h2>
+                        <div class="space-y-2">
+                            <label class="flex items-center">
+                                <input
+                                    type="radio"
+                                    name="payment-method"
+                                    value="cod"
+                                    class="form-radio h-4 w-4 text-red-500"
+                                    checked
+                                />
+                                <span class="ml-2 text-sm text-gray-700"
+                                    >Thanh toán khi nhận hàng (COD)</span
+                                >
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-end">
+                        <button
+                            id="confirm-order"
+                            class="bg-red-500 hover:bg-red-600 text-white font-medium py-3 px-6 rounded-md flex items-center"
+                        >
+                            <i
+                                data-feather="check-circle"
+                                class="w-5 h-5 mr-2"
+                            ></i>
+                            Xác nhận đơn hàng
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-sm p-6">
+                    <h2 class="text-lg font-medium text-gray-900 mb-4">
+                        Tóm tắt đơn hàng
+                    </h2>
+                    <div class="divide-y divide-gray-200">
+                        <div class="pb-4">
+                            <div id="summary-items" class="space-y-2"></div>
+                        </div>
+                        <div class="pt-4">
+                            <div class="flex justify-between items-center">
+                                <span
+                                    class="text-base font-medium text-gray-900"
+                                    >Tổng cộng:</span
+                                >
+                                <span
+                                    id="summary-total"
+                                    class="text-base font-bold text-red-600"
+                                    >0₫</span
+                                >
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="bg-gray-800 text-white pt-12 pb-6">
+            <div class="container mx-auto px-4">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                    <div>
+                        <h3 class="text-xl font-bold mb-4" id="shopNameFooter">
+                            SHOESTORE
+                        </h3>
+                        <p class="text-gray-300 mb-4">
+                            Cửa hàng giày hàng đầu mang đến những sản phẩm chất
+                            lượng với giá cả hợp lý.
+                        </p>
+                        <div class="flex space-x-4">
+                            <a href="#" class="text-gray-300 hover:text-white">
+                                <i data-feather="facebook" class="w-5 h-5"></i>
+                            </a>
+                            <a href="#" class="text-gray-300 hover:text-white">
+                                <i data-feather="instagram" class="w-5 h-5"></i>
+                            </a>
+                            <a href="#" class="text-gray-300 hover:text-white">
+                                <i data-feather="twitter" class="w-5 h-5"></i>
+                            </a>
+                            <a href="#" class="text-gray-300 hover:text-white">
+                                <i data-feather="youtube" class="w-5 h-5"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold mb-4">DANH MỤC</h3>
+                        <ul class="space-y-2">
+                            <li>
+                                <a
+                                    href="#"
+                                    class="text-gray-300 hover:text-white"
+                                    >Thể thao</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    href="#"
+                                    class="text-gray-300 hover:text-white"
+                                    >Công sở</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    href="#"
+                                    class="text-gray-300 hover:text-white"
+                                    >Sneaker</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    href="#"
+                                    class="text-gray-300 hover:text-white"
+                                    >Phụ kiện</a
+                                >
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold mb-4">THÔNG TIN</h3>
+                        <ul class="space-y-2">
+                            <li>
+                                <a
+                                    href="#"
+                                    class="text-gray-300 hover:text-white"
+                                    >Về chúng tôi</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    href="#"
+                                    class="text-gray-300 hover:text-white"
+                                    >Chính sách bảo mật</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    href="#"
+                                    class="text-gray-300 hover:text-white"
+                                    >Điều khoản sử dụng</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    href="#"
+                                    class="text-gray-300 hover:text-white"
+                                    >Chính sách vận chuyển</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    href="#"
+                                    class="text-gray-300 hover:text-white"
+                                    >Chính sách đổi trả</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    href="#"
+                                    class="text-gray-300 hover:text-white"
+                                    >Liên hệ</a
+                                >
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold mb-4">LIÊN HỆ</h3>
+                        <ul class="space-y-2">
+                            <li class="flex items-start">
+                                <i
+                                    data-feather="map-pin"
+                                    class="w-5 h-5 mr-2 mt-1"
+                                ></i>
+                                <span
+                                    >123 Đường ABC, Quận XYZ, TP. Hồ Chí
+                                    Minh</span
+                                >
+                            </li>
+                            <li class="flex items-center">
+                                <i
+                                    data-feather="phone"
+                                    class="w-5 h-5 mr-2"
+                                ></i>
+                                <span>0123 456 789</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i data-feather="mail" class="w-5 h-5 mr-2"></i>
+                                <span id="supportEmailFooter"
+                                    >support@shoestore.com</span
+                                >
+                            </li>
+                        </ul>
+                        <div class="mt-4">
+                            <h4 class="font-medium mb-2">ĐĂNG KÝ NHẬN TIN</h4>
+                            <div class="flex">
+                                <input
+                                    type="email"
+                                    placeholder="Email của bạn"
+                                    class="px-4 py-2 w-full rounded-l-lg focus:outline-none text-gray-800"
+                                />
+                                <button
+                                    class="bg-red-500 hover:bg-red-600 px-4 rounded-r-lg"
+                                >
+                                    <i data-feather="send" class="w-5 h-5"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div
+                    class="border-t border-gray-700 pt-6 text-center text-gray-300 text-sm"
+                >
+                    <p>
+                        © 2025
+                        <span id="shopNameFooterBottom">SHOESTORE</span>. Tất cả
+                        các quyền được bảo lưu.
+                    </p>
+                </div>
+            </div>
+        </footer>
+
+        <script src="../javascript/checkout.js"></script>
+    </body>
+</html>
