@@ -4,7 +4,7 @@
     "name": "shoe-pages",
     "builds": [
         {
-            "src": "/public/page/**",
+            "src": "/page/**",
             "use": "@vercel/static"
         }
     ],
