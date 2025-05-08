@@ -1,0 +1,17 @@
+{
+    "version": 2,
+    "public": true,
+    "name": "shoe-html-pages",
+    "builds": [
+        {
+            "src": "page/(.*)",
+            "use": "@vercel/static"
+        }
+    ],
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "/page/$1"
+        }
+    ]
+}
